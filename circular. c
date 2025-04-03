@@ -1,0 +1,70 @@
+#include <stdio.h> #include <conio.h> #include <stdlib.h>
+
+struct Node { int data; struct Node* next; };
+
+struct Node* head = NULL;
+
+void create(int value) { struct Node* newNode = (struct Node*)malloc(sizeof(struct Node)); newNode->data = value; newNode->next = NULL;
+
+if (head == NULL) {
+    head = newNode;
+    head->next = head; // Circular link
+} else {
+    struct Node* temp = head;
+    while (temp->next != head) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    newNode->next = head;
+}
+
+}
+
+void display() { if (head == NULL) { printf("List is empty!\n"); return; } struct Node* temp = head; printf("Circular Linked List: "); do { printf("%d -> ", temp->data); temp = temp->next; } while (temp != head); printf("(back to head)\n"); }
+
+void search(int key) { if (head == NULL) { printf("List is empty!\n"); return; } struct Node* temp = head; int found = 0; do { if (temp->data == key) { found = 1; break; } temp = temp->next; } while (temp != head);
+
+if (found)
+    printf("Element %d found in the list!\n", key);
+else
+    printf("Element %d not found in the list!\n", key);
+
+}
+
+int main() { int choice, value; clrscr();
+
+while (1) {
+    printf("\nCircular Linked List Menu:\n");
+    printf("1. Create\n");
+    printf("2. Display\n");
+    printf("3. Search\n");
+    printf("4. Exit\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+    
+    switch (choice) {
+        case 1:
+            printf("Enter value to insert: ");
+            scanf("%d", &value);
+            create(value);
+            break;
+        case 2:
+            display();
+            break;
+        case 3:
+            printf("Enter value to search: ");
+            scanf("%d", &value);
+            search(value);
+            break;
+        case 4:
+            printf("Exiting program...\n");
+            exit(0);
+        default:
+            printf("Invalid choice! Please enter a valid option.\n");
+    }
+}
+
+return 0;
+
+}
+
